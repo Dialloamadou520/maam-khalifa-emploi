@@ -1,6 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\BesoinController as AdminBesoinController;
+use App\Http\Controllers\Admin\BourseController as AdminBourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DossierController as AdminDossierController;
+use App\Http\Controllers\Admin\MiseEnRelationController;
+use App\Http\Controllers\Admin\OffreController as AdminOffreController;
+use App\Http\Controllers\Admin\PrestationController;
+use App\Http\Controllers\Admin\UtilisateurController;
 use App\Http\Controllers\Candidat\CandidatureController as CandidatCandidatureController;
 use App\Http\Controllers\Candidat\DashboardController as CandidatDashboardController;
 use App\Http\Controllers\Candidat\DocumentController as CandidatDocumentController;
@@ -94,6 +101,34 @@ Route::middleware(['auth', 'role:recruteur'])->prefix('recruteur')->name('recrut
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/tableau-de-bord', AdminDashboardController::class)->name('dashboard');
+
+    Route::get('/candidats', [UtilisateurController::class, 'candidats'])->name('candidats.index');
+    Route::get('/recruteurs', [UtilisateurController::class, 'recruteurs'])->name('recruteurs.index');
+    Route::get('/utilisateurs/{utilisateur}', [UtilisateurController::class, 'show'])->name('utilisateurs.show');
+    Route::patch('/utilisateurs/{utilisateur}/activation', [UtilisateurController::class, 'basculer'])->name('utilisateurs.basculer');
+    Route::patch('/utilisateurs/{utilisateur}/verification', [UtilisateurController::class, 'verifier'])->name('utilisateurs.verifier');
+    Route::get('/documents/{document}', [UtilisateurController::class, 'document'])->name('documents.show');
+
+    Route::get('/offres', [AdminOffreController::class, 'index'])->name('offres.index');
+    Route::get('/offres/{offre}', [AdminOffreController::class, 'show'])->name('offres.show');
+    Route::patch('/offres/{offre}/valider', [AdminOffreController::class, 'valider'])->name('offres.valider');
+    Route::patch('/offres/{offre}/rejeter', [AdminOffreController::class, 'rejeter'])->name('offres.rejeter');
+
+    Route::get('/besoins', [AdminBesoinController::class, 'index'])->name('besoins.index');
+    Route::get('/besoins/{besoin}', [AdminBesoinController::class, 'show'])->name('besoins.show');
+    Route::patch('/besoins/{besoin}', [AdminBesoinController::class, 'update'])->name('besoins.update');
+
+    Route::get('/dossiers', [AdminDossierController::class, 'index'])->name('dossiers.index');
+    Route::get('/dossiers/{dossier}', [AdminDossierController::class, 'show'])->name('dossiers.show');
+    Route::patch('/dossiers/{dossier}', [AdminDossierController::class, 'update'])->name('dossiers.update');
+
+    Route::resource('bourses', AdminBourseController::class)->except('show')->parameters(['bourses' => 'bourse']);
+    Route::resource('prestations', PrestationController::class)->except(['show', 'destroy']);
+
+    Route::get('/mises-en-relation', [MiseEnRelationController::class, 'index'])->name('mises-en-relation.index');
+    Route::get('/mises-en-relation/nouvelle', [MiseEnRelationController::class, 'create'])->name('mises-en-relation.create');
+    Route::post('/mises-en-relation', [MiseEnRelationController::class, 'store'])->name('mises-en-relation.store');
+    Route::patch('/mises-en-relation/{miseEnRelation}', [MiseEnRelationController::class, 'update'])->name('mises-en-relation.update');
 });
 
 require __DIR__.'/auth.php';
