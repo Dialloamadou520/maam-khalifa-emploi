@@ -28,9 +28,9 @@
         @foreach ($statuts as $s)
             <div class="col-6 col-md-4 col-xl-2">
                 <div class="card border-0 shadow-sm text-center h-100">
-                    <div class="card-body py-3">
+                    <div class="card-body py-3 px-2">
                         <div class="fs-4 fw-bold text-{{ $s->couleur() }}">{{ (int) ($parStatut[$s->value] ?? 0) }}</div>
-                        <div class="small text-muted">{{ $s->label() }}</div>
+                        <div class="compteur-libelle text-muted">{{ $s->label() }}</div>
                     </div>
                 </div>
             </div>

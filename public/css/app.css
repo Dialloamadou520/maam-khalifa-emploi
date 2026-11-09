@@ -162,3 +162,10 @@ a {
 .text-pre-line {
     white-space: pre-line;
 }
+
+/* Libellés des compteurs de statut */
+.compteur-libelle {
+    font-size: .8rem;
+    line-height: 1.2;
+    hyphens: auto;
+}

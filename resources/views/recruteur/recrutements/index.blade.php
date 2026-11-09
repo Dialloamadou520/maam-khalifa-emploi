@@ -8,9 +8,9 @@
         @foreach ($statuts as $s)
             <div class="col-6 col-md-4 col-xl-2">
                 <div class="card border-0 shadow-sm text-center h-100">
-                    <div class="card-body py-3">
+                    <div class="card-body py-3 px-2">
                         <div class="fs-4 fw-bold text-{{ $s->couleur() }}">{{ $totaux[$s->value] }}</div>
-                        <div class="small text-muted">{{ $s->label() }}</div>
+                        <div class="compteur-libelle text-muted">{{ $s->label() }}</div>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     <div class="min-w-0 flex-grow-1">
                         <div class="fw-semibold">{{ $match->candidat->name }} <span class="small text-muted fw-normal">{{ $match->candidat->candidateProfile?->titre_profil }}</span></div>
                         <small class="text-muted">
-                            {{ $match->jobOffer?->titre ?? $match->recruitmentRequest?->intitule_poste ?? 'Candidature spontanée' }} · {{ $match->created_at->translatedFormat('d M Y') }}
+                            {{ $match->jobOffer?->titre ?? $match->recruitmentRequest?->intitule_poste ?? 'Via la recherche de profils' }} · {{ $match->created_at->translatedFormat('d M Y') }}
                         </small>
                     </div>
                     <x-statut-badge :statut="$match->statut" />
