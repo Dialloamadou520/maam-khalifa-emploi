@@ -22,7 +22,7 @@
         <div class="card-header bg-white fw-semibold d-flex justify-content-between">
             <span>Chiffre d'affaires encaissé</span><span>{{ fcfa($chiffreAffaires->sum()) }}</span>
         </div>
-        <div class="card-body">
+        <div class="card-body overflow-x-auto">
             <div class="d-flex align-items-end gap-1 graphe-barres" role="img" aria-label="Chiffre d'affaires mensuel">
                 @foreach ($chiffreAffaires as $m => $montant)
                     <div class="flex-fill text-center">

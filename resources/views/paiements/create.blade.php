@@ -41,7 +41,7 @@
                         @foreach (\App\Enums\PaymentMethod::cases() as $m)
                             <div class="col-6 col-md-4">
                                 <input type="radio" class="btn-check" name="methode" id="methode-{{ $m->value }}" value="{{ $m->value }}" @checked(old('methode') === $m->value)>
-                                <label class="btn btn-outline-secondary w-100 h-100 small" for="methode-{{ $m->value }}">{{ $m->label() }}</label>
+                                <label class="btn btn-outline-primary w-100 h-100 small" for="methode-{{ $m->value }}">{{ $m->label() }}</label>
                             </div>
                         @endforeach
                     </div>

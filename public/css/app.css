@@ -171,6 +171,6 @@ a {
 }
 
 /* Graphique en barres (statistiques) */
-.graphe-barres { min-height: 190px; }
+.graphe-barres { min-height: 190px; min-width: 560px; }
 .graphe-barre { width: 70%; max-width: 42px; background: var(--mk-primary); border-radius: 4px 4px 0 0; }
 .graphe-valeur { font-size: .7rem; min-height: 1rem; }
