@@ -9,7 +9,13 @@ use App\Http\Controllers\Candidat\ProfilController as CandidatProfilController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobOfferController;
 use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\Recruteur\BesoinController;
+use App\Http\Controllers\Recruteur\CandidatureController as RecruteurCandidatureController;
 use App\Http\Controllers\Recruteur\DashboardController as RecruteurDashboardController;
+use App\Http\Controllers\Recruteur\EntrepriseController;
+use App\Http\Controllers\Recruteur\OffreController as RecruteurOffreController;
+use App\Http\Controllers\Recruteur\ProfilController as RecruteurProfilController;
+use App\Http\Controllers\Recruteur\RecrutementController;
 use App\Http\Controllers\ScholarshipController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +55,41 @@ Route::middleware(['auth', 'role:candidat'])->prefix('candidat')->name('candidat
 
 Route::middleware(['auth', 'role:recruteur'])->prefix('recruteur')->name('recruteur.')->group(function () {
     Route::get('/tableau-de-bord', RecruteurDashboardController::class)->name('dashboard');
+
+    Route::get('/entreprise', [EntrepriseController::class, 'edit'])->name('entreprise.edit');
+    Route::put('/entreprise', [EntrepriseController::class, 'update'])->name('entreprise.update');
+
+    Route::get('/offres', [RecruteurOffreController::class, 'index'])->name('offres.index');
+    Route::get('/offres/nouvelle', [RecruteurOffreController::class, 'create'])->name('offres.create');
+    Route::post('/offres', [RecruteurOffreController::class, 'store'])->name('offres.store');
+    Route::get('/offres/{offre}', [RecruteurOffreController::class, 'show'])->name('offres.show');
+    Route::get('/offres/{offre}/modifier', [RecruteurOffreController::class, 'edit'])->name('offres.edit');
+    Route::put('/offres/{offre}', [RecruteurOffreController::class, 'update'])->name('offres.update');
+    Route::patch('/offres/{offre}/cloturer', [RecruteurOffreController::class, 'cloturer'])->name('offres.cloturer');
+
+    Route::get('/candidatures', [RecruteurCandidatureController::class, 'index'])->name('candidatures.index');
+    Route::get('/candidatures/{candidature}', [RecruteurCandidatureController::class, 'show'])->name('candidatures.show');
+    Route::patch('/candidatures/{candidature}', [RecruteurCandidatureController::class, 'update'])->name('candidatures.update');
+    Route::get('/candidatures/{candidature}/{type}', [RecruteurCandidatureController::class, 'document'])
+        ->whereIn('type', ['cv', 'lettre'])->name('candidatures.document');
+
+    Route::get('/besoins', [BesoinController::class, 'index'])->name('besoins.index');
+    Route::get('/besoins/nouveau', [BesoinController::class, 'create'])->name('besoins.create');
+    Route::post('/besoins', [BesoinController::class, 'store'])->name('besoins.store');
+    Route::get('/besoins/{besoin}', [BesoinController::class, 'show'])->name('besoins.show');
+    Route::patch('/besoins/{besoin}/annuler', [BesoinController::class, 'annuler'])->name('besoins.annuler');
+
+    Route::get('/profils', [RecruteurProfilController::class, 'index'])->name('profils.index');
+    Route::get('/profils/{profil}', [RecruteurProfilController::class, 'show'])->name('profils.show');
+    Route::post('/profils/{profil}/mise-en-relation', [RecruteurProfilController::class, 'contacter'])->name('profils.contacter');
+
+    Route::get('/recrutements', [RecrutementController::class, 'index'])->name('recrutements.index');
+    Route::patch('/recrutements/{miseEnRelation}', [RecrutementController::class, 'update'])->name('recrutements.update');
+
+    Route::get('/dossiers', [DossierController::class, 'index'])->name('dossiers.index');
+    Route::get('/dossiers/nouveau', [DossierController::class, 'create'])->name('dossiers.create');
+    Route::post('/dossiers', [DossierController::class, 'store'])->name('dossiers.store');
+    Route::get('/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
