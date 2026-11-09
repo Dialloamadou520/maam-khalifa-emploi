@@ -16,6 +16,14 @@ return [
     'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
+    | Disque des CV, lettres et justificatifs déposés par les utilisateurs.
+    | En production sur Vercel, utiliser « s3 » (Supabase Storage ou S3) : le
+    | disque local n'y est pas persistant.
+    */
+
+    'documents' => env('DOCUMENTS_DISK', 'local'),
+
+    /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------

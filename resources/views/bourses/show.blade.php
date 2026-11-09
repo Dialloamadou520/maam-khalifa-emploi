@@ -35,6 +35,9 @@
                     @if ($bourse->lien_externe)
                         <a href="{{ $bourse->lien_externe }}" target="_blank" rel="noopener" class="btn btn-outline-primary w-100 mb-2">Site officiel <i class="bi bi-box-arrow-up-right"></i></a>
                     @endif
+                    @if (auth()->user()?->isCandidat())
+                        <a href="{{ route('candidat.dossiers.create', ['bourse' => $bourse->slug]) }}" class="btn btn-primary w-100 mb-2">Demander un accompagnement</a>
+                    @endif
                     <p class="small text-muted mb-0">L'agence peut monter votre dossier : voir la prestation « Accompagnement dossier de bourse » dans <a href="{{ route('prestations') }}">nos prestations</a>.</p>
                 </div>
             </div>
