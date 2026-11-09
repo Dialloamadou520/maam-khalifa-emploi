@@ -4,7 +4,6 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\IneVerificationController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -13,12 +12,6 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('verification-ine', [IneVerificationController::class, 'create'])
-        ->name('ine.verification');
-
-    Route::post('verification-ine', [IneVerificationController::class, 'store'])
-        ->name('ine.verification.store');
-
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
