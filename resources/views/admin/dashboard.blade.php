@@ -27,7 +27,7 @@
                 <div class="list-group list-group-flush">
                     @forelse ($offresEnAttente as $offre)
                         <div class="list-group-item">
-                            <div class="fw-semibold">{{ $offre->titre }}</div>
+                            <a href="{{ route('admin.offres.show', $offre) }}" class="fw-semibold">{{ $offre->titre }}</a>
                             <small class="text-muted">{{ $offre->company->nom }} · soumise {{ $offre->created_at->diffForHumans() }}</small>
                         </div>
                     @empty

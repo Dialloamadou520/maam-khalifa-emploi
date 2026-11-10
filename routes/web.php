@@ -1,10 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\BesoinController as AdminBesoinController;
+use App\Http\Controllers\Admin\BourseController as AdminBourseController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DossierController as AdminDossierController;
+use App\Http\Controllers\Admin\MiseEnRelationController;
+use App\Http\Controllers\Admin\OffreController as AdminOffreController;
+use App\Http\Controllers\Admin\PaiementController as AdminPaiementController;
+use App\Http\Controllers\Admin\PrestationController;
+use App\Http\Controllers\Admin\StatistiqueController;
+use App\Http\Controllers\Admin\UtilisateurController;
 use App\Http\Controllers\Candidat\CandidatureController as CandidatCandidatureController;
 use App\Http\Controllers\Candidat\DashboardController as CandidatDashboardController;
 use App\Http\Controllers\Candidat\DocumentController as CandidatDocumentController;
 use App\Http\Controllers\Candidat\DossierController;
+use App\Http\Controllers\Candidat\PaiementController;
 use App\Http\Controllers\Candidat\ProfilController as CandidatProfilController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobOfferController;
@@ -51,6 +61,10 @@ Route::middleware(['auth', 'role:candidat'])->prefix('candidat')->name('candidat
     Route::get('/dossiers/nouveau', [DossierController::class, 'create'])->name('dossiers.create');
     Route::post('/dossiers', [DossierController::class, 'store'])->name('dossiers.store');
     Route::get('/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
+
+    Route::get('/paiements', [PaiementController::class, 'index'])->name('paiements.index');
+    Route::get('/dossiers/{dossier}/paiement', [PaiementController::class, 'create'])->name('paiements.create');
+    Route::post('/dossiers/{dossier}/paiement', [PaiementController::class, 'store'])->name('paiements.store');
 });
 
 Route::middleware(['auth', 'role:recruteur'])->prefix('recruteur')->name('recruteur.')->group(function () {
@@ -90,10 +104,50 @@ Route::middleware(['auth', 'role:recruteur'])->prefix('recruteur')->name('recrut
     Route::get('/dossiers/nouveau', [DossierController::class, 'create'])->name('dossiers.create');
     Route::post('/dossiers', [DossierController::class, 'store'])->name('dossiers.store');
     Route::get('/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
+
+    Route::get('/paiements', [PaiementController::class, 'index'])->name('paiements.index');
+    Route::get('/dossiers/{dossier}/paiement', [PaiementController::class, 'create'])->name('paiements.create');
+    Route::post('/dossiers/{dossier}/paiement', [PaiementController::class, 'store'])->name('paiements.store');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/tableau-de-bord', AdminDashboardController::class)->name('dashboard');
+
+    Route::get('/candidats', [UtilisateurController::class, 'candidats'])->name('candidats.index');
+    Route::get('/recruteurs', [UtilisateurController::class, 'recruteurs'])->name('recruteurs.index');
+    Route::get('/utilisateurs/{utilisateur}', [UtilisateurController::class, 'show'])->name('utilisateurs.show');
+    Route::patch('/utilisateurs/{utilisateur}/activation', [UtilisateurController::class, 'basculer'])->name('utilisateurs.basculer');
+    Route::patch('/utilisateurs/{utilisateur}/verification', [UtilisateurController::class, 'verifier'])->name('utilisateurs.verifier');
+    Route::get('/documents/{document}', [UtilisateurController::class, 'document'])->name('documents.show');
+
+    Route::get('/offres', [AdminOffreController::class, 'index'])->name('offres.index');
+    Route::get('/offres/{offre}', [AdminOffreController::class, 'show'])->name('offres.show');
+    Route::patch('/offres/{offre}/valider', [AdminOffreController::class, 'valider'])->name('offres.valider');
+    Route::patch('/offres/{offre}/rejeter', [AdminOffreController::class, 'rejeter'])->name('offres.rejeter');
+
+    Route::get('/besoins', [AdminBesoinController::class, 'index'])->name('besoins.index');
+    Route::get('/besoins/{besoin}', [AdminBesoinController::class, 'show'])->name('besoins.show');
+    Route::patch('/besoins/{besoin}', [AdminBesoinController::class, 'update'])->name('besoins.update');
+
+    Route::get('/dossiers', [AdminDossierController::class, 'index'])->name('dossiers.index');
+    Route::get('/dossiers/{dossier}', [AdminDossierController::class, 'show'])->name('dossiers.show');
+    Route::patch('/dossiers/{dossier}', [AdminDossierController::class, 'update'])->name('dossiers.update');
+
+    Route::resource('bourses', AdminBourseController::class)->except('show')->parameters(['bourses' => 'bourse']);
+    Route::resource('prestations', PrestationController::class)->except(['show', 'destroy']);
+
+    Route::get('/mises-en-relation', [MiseEnRelationController::class, 'index'])->name('mises-en-relation.index');
+    Route::get('/mises-en-relation/nouvelle', [MiseEnRelationController::class, 'create'])->name('mises-en-relation.create');
+    Route::post('/mises-en-relation', [MiseEnRelationController::class, 'store'])->name('mises-en-relation.store');
+    Route::patch('/mises-en-relation/{miseEnRelation}', [MiseEnRelationController::class, 'update'])->name('mises-en-relation.update');
+
+    Route::get('/paiements', [AdminPaiementController::class, 'index'])->name('paiements.index');
+    Route::post('/dossiers/{dossier}/paiements', [AdminPaiementController::class, 'store'])->name('paiements.store');
+    Route::patch('/paiements/{paiement}/confirmer', [AdminPaiementController::class, 'confirmer'])->name('paiements.confirmer');
+    Route::patch('/paiements/{paiement}/rejeter', [AdminPaiementController::class, 'rejeter'])->name('paiements.rejeter');
+
+    Route::get('/statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
+    Route::get('/statistiques/export', [StatistiqueController::class, 'export'])->name('statistiques.export');
 });
 
 require __DIR__.'/auth.php';
