@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Scholarship extends Model
@@ -32,6 +33,11 @@ class Scholarship extends Model
         static::creating(function (Scholarship $bourse) {
             $bourse->slug ??= Str::slug(Str::limit($bourse->titre, 60, '')).'-'.Str::lower(Str::random(6));
         });
+    }
+
+    public function serviceRequests(): HasMany
+    {
+        return $this->hasMany(ServiceRequest::class);
     }
 
     public function getRouteKeyName(): string
