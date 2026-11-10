@@ -31,7 +31,7 @@
                     @forelse ($offres as $offre)
                         <div class="list-group-item d-flex justify-content-between align-items-center gap-2">
                             <div class="min-w-0">
-                                <div class="fw-semibold text-truncate">{{ $offre->titre }}</div>
+                                <a href="{{ route('recruteur.offres.show', $offre) }}" class="fw-semibold text-truncate d-block">{{ $offre->titre }}</a>
                                 <small class="text-muted">{{ $offre->applications_count }} candidature(s) · {{ $offre->lieu }}</small>
                             </div>
                             <x-statut-badge :statut="$offre->statut" />
@@ -49,7 +49,7 @@
                     @forelse ($candidatures as $candidature)
                         <div class="list-group-item d-flex justify-content-between align-items-center gap-2">
                             <div class="min-w-0">
-                                <div class="fw-semibold text-truncate">{{ $candidature->candidat->name }}</div>
+                                <a href="{{ route('recruteur.candidatures.show', $candidature) }}" class="fw-semibold text-truncate d-block">{{ $candidature->candidat->name }}</a>
                                 <small class="text-muted">{{ $candidature->jobOffer->titre }} · {{ $candidature->created_at->diffForHumans() }}</small>
                             </div>
                             <x-statut-badge :statut="$candidature->statut" />
