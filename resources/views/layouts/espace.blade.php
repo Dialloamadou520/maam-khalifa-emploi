@@ -21,6 +21,7 @@
             ['recruteur.candidatures.index', 'people', 'Candidatures reçues'],
             ['recruteur.profils.index', 'search', 'Rechercher des profils'],
             ['recruteur.recrutements.index', 'diagram-3', 'Suivi des recrutements'],
+            ['recruteur.dossiers.index', 'folder2-open', 'Prestations & dossiers'],
             ['recruteur.paiements.index', 'credit-card', 'Paiements'],
         ],
         'admin' => [
